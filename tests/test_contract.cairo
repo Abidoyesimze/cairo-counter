@@ -1,6 +1,6 @@
 
 use starknet::ContractAddress;
-use snforge_std::{declare,ContractClassTrait, DeclareResultTrait};
+use snforge_std::{declare,ContractClassTrait, DeclareResultTrait, start_cheat_caller_address};
 
 use count::{ICounterDispatcher, ICounterDispatcherTrait};
 
@@ -32,8 +32,8 @@ fn test_deploy_contract(){
 }
 
 #[test]
-#[should_panic]
-fn test_increament_counter_overflow(){
+#[should_panic (expected: 'u32_add Overflow')]
+fn test_fail_increament_counter_overflow(){
     let initial_count= 0xffffffff; // max value of u32
     let counter = deploy_counter(initial_count);
 
@@ -60,8 +60,8 @@ fn test_decreament(){
 }
 
 #[test]
-#[should_panic]
-fn test_decreament_overflow(){
+#[should_panic (expected: 'u32_sub Overflow')]
+fn test_fail_decreament_overflow(){
     let initial_count = 0;
     let counter = deploy_counter(initial_count);
     counter.decrease_counter();
@@ -71,6 +71,7 @@ fn test_decreament_overflow(){
 fn test_reset_counter(){
     let initial_count = 3;
     let counter = deploy_counter(initial_count);
+    start_cheat_caller_address(counter.contract_address, owner());
     counter.reset_counter();
     let current_count = counter.get_counter();
     assert(current_count == 0, 'reset failed');
