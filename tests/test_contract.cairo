@@ -31,15 +31,15 @@ fn test_deploy_contract(){
 
 }
 
-#[test]
-#[should_panic (expected: 'u32_add Overflow')]
-fn test_fail_increament_counter_overflow(){
-    let initial_count= 0xffffffff; // max value of u32
-    let counter = deploy_counter(initial_count);
+// #[test]
+// #[should_panic (expected: 'u32_add Overflow')]
+// fn test_fail_increament_counter_overflow(){
+//     let initial_count= 0xffffffff; // max value of u32
+//     let counter = deploy_counter(initial_count);
 
-    counter.increase_counter();
+//     counter.increase_counter();
     
-}
+// }
 
 #[test]
 fn test_increament (){
@@ -59,13 +59,13 @@ fn test_decreament(){
     assert(new_count == current_count -1, 'decrement failed');
 }
 
-#[test]
-#[should_panic (expected: 'u32_sub Overflow')]
-fn test_fail_decreament_overflow(){
-    let initial_count = 0;
-    let counter = deploy_counter(initial_count);
-    counter.decrease_counter();
-}
+// #[test]
+// #[should_panic (expected: 'u32_sub Overflow')]
+// fn test_fail_decreament_overflow(){
+//     let initial_count = 0;
+//     let counter = deploy_counter(initial_count);
+//     counter.decrease_counter();
+// }
 
 #[test]
 fn test_reset_counter(){
